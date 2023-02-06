@@ -115,4 +115,4 @@ class itfgan_webObject:
                     
 
             optimized_dlatents = latents_to_be_optimized.detach().cpu().numpy()
-            return optimized_dlatents
+            return optimized_dlatents,latents_to_be_optimized
