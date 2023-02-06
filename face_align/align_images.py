@@ -34,11 +34,13 @@ def align_image(IMAGE):
     
     landmarks_detector = LandmarksDetector(landmarks_model_path)
     for i in enumerate(landmarks_detector.get_landmarks(RAW_IMAGES_DIR), start=1):
-         print("landmark=> "+i)
+         print("landmark=> ")
+         print(i)
         
     
     for i, face_landmarks in enumerate(landmarks_detector.get_landmarks(RAW_IMAGES_DIR), start=1):
             ori = image_align(IMAGE, face_landmarks)
             new = web.image_to_buffer(image_align(IMAGE, face_landmarks))
-            print("buffer=> "+new)
+            print("buffer=> ")
+            print(new)
             return ori, new 
