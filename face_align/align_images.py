@@ -4,9 +4,9 @@ import bz2
 from PIL import Image
 import io
 sys.path.append('utils')
-import webFunction as web
-from gan.interfacegan.face_align.ffhq_dataset.face_alignment import image_align
-from gan.interfacegan.face_align.ffhq_dataset.landmarks_detector import LandmarksDetector
+import APIGANFILE.webFunction as web
+from APIGANFILE.face_align.ffhq_dataset.face_alignment import image_align
+from APIGANFILE.face_align.ffhq_dataset.landmarks_detector import LandmarksDetector
 
 LANDMARKS_MODEL_URL = 'http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2'
 
