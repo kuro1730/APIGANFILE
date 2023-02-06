@@ -117,8 +117,6 @@ class itfgan_webObject:
                     
 
             optimized_dlatents = latents_to_be_optimized.detach().cpu().numpy()
-            img = save_image(optimized_dlatents)
-            RAW_IMAGES_DIR = '/content/interfacegan/img'
-            img.save(f"{RAW_IMAGES_DIR}/tempp.png", format='PNG')
+
             
             return optimized_dlatents
