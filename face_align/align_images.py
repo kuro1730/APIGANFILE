@@ -25,16 +25,20 @@ def align_image(IMAGE):
     python align_images.py /raw_images /aligned_images
     """
     
-    RAW_IMAGES_DIR = '/content/interfacegan/img/test_out.png'
+    RAW_IMAGES_DIR = '/content/interfacegan/img/test.png'
     try: Image.open(IMAGE).save(RAW_IMAGES_DIR, format='PNG')
     except: IMAGE.save(RAW_IMAGES_DIR, format='PNG')
     IMAGE = Image.open(RAW_IMAGES_DIR)
 
     landmarks_model_path = unpack_bz2('/content/interfacegan/models/shape_predictor_68_face_landmarks.dat.bz2')
-
+    
     landmarks_detector = LandmarksDetector(landmarks_model_path)
-
+    for i in enumerate(landmarks_detector.get_landmarks(RAW_IMAGES_DIR), start=1):
+         print("landmark=> "+i)
+        
+    
     for i, face_landmarks in enumerate(landmarks_detector.get_landmarks(RAW_IMAGES_DIR), start=1):
             ori = image_align(IMAGE, face_landmarks)
             new = web.image_to_buffer(image_align(IMAGE, face_landmarks))
+            print("buffer=> "+new)
             return ori, new 
