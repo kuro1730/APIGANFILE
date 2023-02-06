@@ -7,10 +7,12 @@ import torch
 from models.model_settings import MODEL_POOL
 from models.pggan_generator import PGGANGenerator
 from models.stylegan_generator import StyleGANGenerator
-from latent_encoder.models.latent_optimizer import LatentOptimizer
-from latent_encoder.models.losses import LatentLoss
-from latent_encoder.utilities.hooks import GeneratedImageHook
-from latent_encoder.utilities.images import load_images
+from APIGANFILE.latent_encoder.models.latent_optimizer import LatentOptimizer
+from APIGANFILE.latent_encoder.models.losses import LatentLoss
+from APIGANFILE.latent_encoder.utilities.hooks import GeneratedImageHook
+from APIGANFILE.latent_encoder.utilities.images import load_images
+from APIGANFILE.latent_encoder.utilities.images import save_image
+from PIL import Image
 from tqdm import tqdm
 
 
@@ -115,4 +117,8 @@ class itfgan_webObject:
                     
 
             optimized_dlatents = latents_to_be_optimized.detach().cpu().numpy()
+            img = save_image(optimized_dlatents)
+            RAW_IMAGES_DIR = '/content/interfacegan/img'
+            img.save(f"{RAW_IMAGES_DIR}/tempp.png", format='PNG')
+            
             return optimized_dlatents
