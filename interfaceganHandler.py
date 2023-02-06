@@ -57,26 +57,11 @@ class itfgan_webObject:
     def manipulate(self, 
         latentCode, model_name, latentSpaceType, 
         age, eyeglasses, gender, pose, smile, 
-        check_if_upload = False
+        check_if_upload = True
     ):
       self.cleanCache()    
       for name in self.model:
           if model_name is name: model = self.model[name]
-
-      default_control_features = ['age','eyeglasses','gender','pose','smile']
-      boundaries = {}
-      for attr_name in default_control_features:
-          boundary_name = f'{model_name}_{attr_name}'
-          if model_name == 'stylegan_ffhq' or model_name == 'stylegan_celebahq' :
-            if latentSpaceType == 'W' or latentSpaceType == 'WP': 
-              w_Sboundary = os.path.abspath(f'gan/interfacegan/InterFaceGAN/boundaries/{boundary_name}_w_boundary.npy')
-              boundaries[attr_name] = np.load(w_Sboundary)
-            else: 
-              Sboundary = os.path.abspath(f'gan/interfacegan/InterFaceGAN/boundaries/{boundary_name}_boundary.npy')
-              boundaries[attr_name] = np.load(Sboundary)
-          else:
-              Gboundary = os.path.abspath(f'gan/interfacegan/InterFaceGAN/boundaries/{boundary_name}_boundary.npy')
-              boundaries[attr_name] = np.load(Gboundary)
 
       if latentSpaceType == 'W': kwargs = {'latent_space_type': 'W'}
       else: kwargs = {}
@@ -87,7 +72,7 @@ class itfgan_webObject:
 
       
       new_codes = latentCode.copy()
-      for attr_name in default_control_features:
+      for attr_name in ATTRS:
           new_codes += boundaries[attr_name] * eval(attr_name)
       
       newImage = model.easy_synthesize(new_codes, **kwargs)['image']
@@ -95,12 +80,14 @@ class itfgan_webObject:
 
     def optimize_latents(self, input_image, optimize_iterations):
 
+
             if input_image is None: return
             latent_optimizer = LatentOptimizer(self.synthesizer, 12)
 
             for param in latent_optimizer.parameters():
                 param.requires_grad_(False)
 
+            
             reference_image = load_images([input_image])
             reference_image = torch.from_numpy(reference_image).cuda()
             reference_image = latent_optimizer.vgg_processing(reference_image)
@@ -111,11 +98,10 @@ class itfgan_webObject:
             criterion = LatentLoss()
             optimizer = torch.optim.SGD([latents_to_be_optimized], lr=1)
             
-           
             progress_bar = tqdm(range(optimize_iterations))
             for step in progress_bar:
-
-                    
+ 
+                
                 optimizer.zero_grad()
                 generated_image_features = latent_optimizer(latents_to_be_optimized)
                 loss = criterion(generated_image_features, reference_features)
