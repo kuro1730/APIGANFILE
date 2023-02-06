@@ -114,5 +114,5 @@ class itfgan_webObject:
               #  progress_bar.set_description("Step: {}, Loss: {}".format(step, loss))
                     
 
-            #optimized_dlatents = latents_to_be_optimized.detach().cpu().numpy()
-            return latents_to_be_optimized
+            optimized_dlatents = latents_to_be_optimized.detach().cpu().numpy()
+            return optimized_dlatents
