@@ -101,7 +101,8 @@ class itfgan_webObject:
             progress_bar = tqdm(range(optimize_iterations))
             for step in progress_bar:
  
-                
+                print("Step ==> ")
+                print(step)
                 optimizer.zero_grad()
                 generated_image_features = latent_optimizer(latents_to_be_optimized)
                 loss = criterion(generated_image_features, reference_features)
