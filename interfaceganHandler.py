@@ -87,7 +87,8 @@ class itfgan_webObject:
             for param in latent_optimizer.parameters():
                 param.requires_grad_(False)
 
-            
+            print("input_image")
+            print(input_image)
             reference_image = load_images([input_image])
             print("reference_image")
             print(reference_image)
