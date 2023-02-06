@@ -89,6 +89,8 @@ class itfgan_webObject:
 
             
             reference_image = load_images([input_image])
+            print("reference_image")
+            print(reference_image)
             reference_image = torch.from_numpy(reference_image).cuda()
             reference_image = latent_optimizer.vgg_processing(reference_image)
             reference_features = latent_optimizer.vgg16(reference_image).detach()
@@ -101,8 +103,6 @@ class itfgan_webObject:
             progress_bar = tqdm(range(optimize_iterations))
             for step in progress_bar:
  
-                print("Step ==> ")
-                print(step)
                 optimizer.zero_grad()
                 generated_image_features = latent_optimizer(latents_to_be_optimized)
                 loss = criterion(generated_image_features, reference_features)
