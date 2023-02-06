@@ -55,7 +55,7 @@ class itfgan_webObject:
 
 
     def manipulate(self, 
-        latentCode, model_name, latentSpaceType,ATTRS,boundaries,
+        latentCode, model_name, latentSpaceType,ATTRS,boundaries ,
         age, eyeglasses, gender, pose, smile, 
         check_if_upload = True
     ):
