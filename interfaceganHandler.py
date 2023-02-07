@@ -100,20 +100,20 @@ class itfgan_webObject:
             reference_image = reference_image.detach()
             latents_to_be_optimized = torch.zeros((1,18,512)).cuda().requires_grad_(True)
             
-            #criterion = LatentLoss()
-            #optimizer = torch.optim.SGD([latents_to_be_optimized], lr=1)
+            criterion = LatentLoss()
+            optimizer = torch.optim.SGD([latents_to_be_optimized], lr=1)
             
-            #progress_bar = tqdm(range(optimize_iterations))
-            #for step in progress_bar:
+            progress_bar = tqdm(range(optimize_iterations))
+            for step in progress_bar:
  
-            #    optimizer.zero_grad()
-             #   generated_image_features = latent_optimizer(latents_to_be_optimized)
-             #   loss = criterion(generated_image_features, reference_features)
-             #   loss.backward()
-             #   loss = loss.item()
+                optimizer.zero_grad()
+                generated_image_features = latent_optimizer(latents_to_be_optimized)
+                loss = criterion(generated_image_features, reference_features)
+                loss.backward()
+                loss = loss.item()
 
-              #  optimizer.step()
-              #  progress_bar.set_description("Step: {}, Loss: {}".format(step, loss))
+                optimizer.step()
+                progress_bar.set_description("Step: {}, Loss: {}".format(step, loss))
                     
 
             optimized_dlatents = latents_to_be_optimized.detach().cpu().numpy()
